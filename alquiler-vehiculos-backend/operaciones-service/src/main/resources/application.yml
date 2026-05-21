@@ -1,0 +1,48 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: operaciones-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/operacionesdb}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+    default-property-inclusion: non_null
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka-server:8761/eureka}
+  instance:
+    prefer-ip-address: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+vehiculos:
+  service:
+    url: ${VEHICULOS_SERVICE_URL:http://vehiculos-service:8081}
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: basic
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

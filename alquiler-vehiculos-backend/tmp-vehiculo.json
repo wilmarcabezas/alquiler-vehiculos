@@ -1,0 +1,8 @@
+{
+  "marca": "Toyota",
+  "modelo": "Corolla",
+  "placa": "ABC123",
+  "estado": "DISPONIBLE",
+  "anio": 2022,
+  "tipo": "Sedan"
+}

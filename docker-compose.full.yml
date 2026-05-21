@@ -1,0 +1,113 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: alquiler-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./alquiler-vehiculos-backend/init-scripts:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - alquiler-network
+
+  eureka-server:
+    build:
+      context: ./alquiler-vehiculos-backend
+      dockerfile: Dockerfile.eureka
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:8761/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    networks:
+      - alquiler-network
+
+  gateway-service:
+    build:
+      context: ./alquiler-vehiculos-backend
+      dockerfile: Dockerfile.gateway
+    container_name: gateway-service
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - alquiler-network
+
+  vehiculos-service:
+    build:
+      context: ./alquiler-vehiculos-backend
+      dockerfile: Dockerfile.vehiculos
+    container_name: vehiculos-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vehiculosdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+    depends_on:
+      postgres:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    networks:
+      - alquiler-network
+
+  operaciones-service:
+    build:
+      context: ./alquiler-vehiculos-backend
+      dockerfile: Dockerfile.operaciones
+    container_name: operaciones-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/operacionesdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+    depends_on:
+      postgres:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      vehiculos-service:
+        condition: service_started
+    ports:
+      - "8082:8082"
+    networks:
+      - alquiler-network
+
+  frontend:
+    build:
+      context: ./alquiler-vehiculos-frontend
+      dockerfile: Dockerfile
+    container_name: alquiler-frontend
+    depends_on:
+      gateway-service:
+        condition: service_started
+    ports:
+      - "3000:80"
+    networks:
+      - alquiler-network
+
+networks:
+  alquiler-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

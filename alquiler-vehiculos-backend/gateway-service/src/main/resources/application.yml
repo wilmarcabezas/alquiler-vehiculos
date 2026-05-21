@@ -1,0 +1,56 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      # Gateway es el punto unico de entrada para el frontend:
+      #   http://localhost:8080/api/vehiculos/**    -> lb://vehiculos-service
+      #   http://localhost:8080/api/operaciones/** -> lb://operaciones-service
+      # Los microservicios ya exponen sus controllers bajo /api, por eso no se reescribe el path.
+      discovery:
+        locator:
+          enabled: false
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns:
+              - "http://localhost:*"
+              - "http://127.0.0.1:*"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowed-headers: "*"
+            allow-credentials: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      routes:
+        - id: vehiculos-service
+          uri: lb://vehiculos-service
+          predicates:
+            - Path=/api/vehiculos/**
+        - id: operaciones-service
+          uri: lb://operaciones-service
+          predicates:
+            - Path=/api/operaciones/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka-server:8761/eureka}
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
