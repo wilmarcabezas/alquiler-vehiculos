@@ -1,0 +1,167 @@
+:root {
+  --text: #eff5ff;
+  --muted: #a7b5cf;
+  --primary: #4da3ff;
+  --primary-dark: #1f6ed4;
+  --accent: #38d39f;
+  --warning: #f2b84b;
+  --danger: #ff6b7d;
+  --border: rgba(255, 255, 255, 0.12);
+  --card: rgba(255, 255, 255, 0.08);
+  --shadow: 0 20px 40px rgba(2, 12, 27, 0.35);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --container: min(1180px, calc(100% - 2rem));
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at top, #132b52 0%, #07111f 45%, #040a13 100%);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body, #root { margin: 0; min-height: 100vh; }
+body { color: var(--text); background: transparent; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; min-width: 0; }
+img { max-width: 100%; display: block; }
+
+.container { width: var(--container); margin: 0 auto; }
+.page-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.page-shell main { flex: 1; }
+.glass-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow); backdrop-filter: blur(14px); }
+.eyebrow { display: inline-block; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.78rem; font-weight: 700; }
+.btn { border: none; border-radius: 999px; padding: 0.95rem 1.4rem; font-weight: 700; transition: transform 0.25s ease, background 0.25s ease; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; text-align: center; }
+.btn:hover { transform: translateY(-2px); }
+.btn:disabled { cursor: not-allowed; opacity: 0.55; transform: none; }
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+.btn-secondary { background: rgba(255,255,255,0.12); color: var(--text); border: 1px solid var(--border); }
+.btn-ghost { background: transparent; color: var(--primary); }
+.feedback-state { text-align: center; padding: 2rem; border: 1px dashed var(--border); border-radius: var(--radius-md); margin: 1.5rem 0; }
+.spinner { width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 1rem; border: 4px solid rgba(255,255,255,0.15); border-top-color: var(--accent); animation: spin 0.9s linear infinite; }
+.inline-message { margin: 1rem 0 0; font-weight: 600; }
+.inline-message.success { color: var(--accent); }
+.inline-message.error { color: var(--danger); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.navbar-shell { position: sticky; top: 0; z-index: 20; width: 100%; background: rgba(4, 10, 19, 0.72); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+.navbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; }
+.navbar-top-row { display: contents; }
+.brand-mark { display: flex; flex-direction: column; min-width: 0; font-weight: 800; font-size: 1.1rem; }
+.brand-mark span { font-size: 0.82rem; color: var(--muted); font-weight: 500; }
+.nav-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+.nav-links a { padding: 0.75rem 1rem; border-radius: 999px; color: var(--muted); }
+.nav-links a.active, .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.08); }
+.menu-toggle { display: none; border: 1px solid var(--border); background: rgba(255,255,255,0.06); border-radius: 14px; width: 48px; height: 48px; align-items: center; justify-content: center; gap: 0.28rem; padding: 0.65rem; }
+.menu-toggle span { display: block; width: 100%; height: 2px; background: var(--text); border-radius: 999px; transition: transform 0.25s ease, opacity 0.25s ease; }
+.menu-toggle.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu-toggle.is-open span:nth-child(2) { opacity: 0; }
+.menu-toggle.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.site-footer { border-top: 1px solid var(--border); background: rgba(4, 10, 19, 0.58); }
+.footer-content { display: flex; justify-content: space-between; gap: 1rem; padding: 1.5rem 0 2rem; color: var(--muted); }
+.footer-content p { margin: 0; }
+
+.hero-section, .page-section { padding: 3rem 0 4rem; }
+.hero-section { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; align-items: center; min-height: 70vh; }
+.hero-copy h1, .page-heading h1 { font-size: clamp(2.2rem, 4vw, 4.5rem); line-height: 1.05; margin: 0.8rem 0 1rem; overflow-wrap: anywhere; }
+.hero-copy p, .page-heading p, .section-title p, .vehicle-description { color: var(--muted); line-height: 1.7; }
+.hero-card, .form-card, .vehicle-detail-card { padding: 1.5rem; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.feature-list { margin: 1.2rem 0 0; padding-left: 1.2rem; color: var(--muted); display: grid; gap: 0.8rem; }
+.page-heading { max-width: 760px; margin-bottom: 1rem; }
+.page-heading.compact h1 { font-size: clamp(2rem, 3vw, 3rem); }
+.section-title.center { text-align: center; margin-bottom: 1.5rem; }
+.benefits-section { padding-bottom: 4rem; }
+.benefits-grid, .vehicle-grid, .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.benefits-grid, .vehicle-grid { align-items: stretch; }
+.benefits-grid article, .filters-panel, .vehicle-card, .not-found-card { padding: 1.5rem; }
+
+.filters-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0 2rem; }
+.field-group { display: flex; flex-direction: column; gap: 0.45rem; }
+.field-group label { color: var(--muted); font-size: 0.95rem; }
+.field-group input, .field-group select { width: 100%; min-height: 48px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: rgba(255, 255, 255, 0.06); color: var(--text); padding: 0.92rem 1rem; outline: none; font-size: 1rem; }
+.field-group input:focus, .field-group select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.15); }
+
+.vehicle-card { overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.vehicle-image, .vehicle-detail-image { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: calc(var(--radius-lg) - 6px); }
+.vehicle-card-body { padding-top: 1rem; display: grid; gap: 1rem; }
+.vehicle-card h3, .section-title h3, .benefits-grid h3 { margin-top: 0; overflow-wrap: anywhere; }
+.vehicle-card-header, .vehicle-card-footer, .selected-vehicle-preview { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.vehicle-card-header > div, .vehicle-card-footer > strong, .selected-vehicle-preview > span { min-width: 0; }
+.vehicle-type { color: var(--accent); margin: 0 0 0.4rem; font-weight: 700; }
+.vehicle-meta { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.4rem; color: var(--muted); }
+.vehicle-detail-layout { display: grid; grid-template-columns: 1.3fr 0.9fr; gap: 1.5rem; }
+.vehicle-detail-copy { display: grid; gap: 1.25rem; margin-top: 1.2rem; }
+.form-grid, .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+.detail-grid div { display: flex; flex-direction: column; gap: 0.25rem; padding: 1rem; border-radius: var(--radius-sm); background: rgba(255,255,255,0.05); }
+
+.status-badge { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: 0.42rem 0.85rem; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.04em; }
+.status-disponible, .status-confirmada { background: rgba(56, 211, 159, 0.16); color: var(--accent); }
+.status-no_disponible, .status-cancelada { background: rgba(255, 107, 125, 0.16); color: var(--danger); }
+.status-mantenimiento, .status-pendiente { background: rgba(242, 184, 75, 0.16); color: var(--warning); }
+.status-inactivo, .status-desconocido { background: rgba(167, 181, 207, 0.16); color: var(--muted); }
+
+.admin-requests-section { margin-top: 1.5rem; padding: 1.5rem; }
+.admin-requests-header, .rental-request-main, .request-actions { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.admin-requests-header { margin-bottom: 1rem; }
+.admin-requests-header h3, .rental-request-main h4 { margin: 0; }
+.rental-requests-list { display: grid; gap: 1rem; }
+.rental-request-card { display: grid; gap: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgba(255, 255, 255, 0.04); }
+.rental-request-main p { margin: 0.35rem 0 0; color: var(--muted); }
+.request-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.75rem; }
+.request-detail-grid div { display: grid; gap: 0.25rem; padding: 0.85rem; border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.05); }
+.request-detail-grid span { color: var(--muted); font-size: 0.88rem; }
+.request-detail-grid strong { overflow-wrap: anywhere; }
+.request-actions { justify-content: flex-end; }
+.centered-page { display: grid; place-items: center; }
+.not-found-card { text-align: center; max-width: 640px; }
+.error-state { border-color: rgba(255, 107, 125, 0.4); background: rgba(255, 107, 125, 0.08); }
+.empty-state { background: rgba(255, 255, 255, 0.03); }
+
+@media (max-width: 900px) {
+  .hero-section, .vehicle-detail-layout, .admin-grid { grid-template-columns: 1fr; }
+  .navbar, .footer-content { flex-direction: column; align-items: flex-start; }
+  .hero-section, .page-section { padding: 2.25rem 0 3rem; }
+}
+
+@media (max-width: 640px) {
+  :root { --container: min(100% - 1rem, 100%); --radius-lg: 18px; --radius-md: 14px; --radius-sm: 10px; }
+  .eyebrow { font-size: 0.68rem; letter-spacing: 0.09em; }
+  .btn { width: 100%; padding: 0.9rem 1rem; }
+  .feedback-state { padding: 1.2rem 1rem; }
+  .navbar { align-items: stretch; gap: 0; padding: 0.75rem 0; }
+  .navbar-top-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .brand-mark { font-size: 1rem; line-height: 1.15; }
+  .brand-mark span { font-size: 0.78rem; }
+  .menu-toggle { display: inline-flex; flex-direction: column; flex-shrink: 0; }
+  .nav-links { display: none; grid-template-columns: 1fr; width: 100%; gap: 0.6rem; margin-top: 0.9rem; }
+  .nav-links.nav-links-open { display: grid; }
+  .nav-links a { width: 100%; text-align: center; padding: 0.85rem 1rem; background: rgba(255,255,255,0.04); }
+  .hero-section { min-height: auto; gap: 1.25rem; padding-top: 1.75rem; }
+  .hero-copy h1, .page-heading h1 { font-size: clamp(1.85rem, 9vw, 2.35rem); line-height: 1.1; }
+  .hero-copy p, .page-heading p, .section-title p, .vehicle-description { line-height: 1.55; font-size: 0.96rem; }
+  .hero-actions, .vehicle-card-header, .vehicle-card-footer, .selected-vehicle-preview, .admin-requests-header, .rental-request-main, .request-actions { flex-direction: column; align-items: flex-start; }
+  .hero-card, .form-card, .vehicle-detail-card { padding: 1.15rem; }
+  .footer-content { gap: 0.6rem; text-align: center; align-items: center; padding: 1.1rem 0 1.4rem; }
+  .benefits-grid, .vehicle-grid, .admin-grid, .filters-panel, .form-grid, .detail-grid, .request-detail-grid { grid-template-columns: 1fr; }
+  .benefits-grid article, .filters-panel, .vehicle-card, .not-found-card { padding: 1rem; }
+  .filters-panel { gap: 0.8rem; margin: 1rem 0 1.25rem; }
+  .field-group input, .field-group select { padding: 0.88rem 0.9rem; font-size: 16px; }
+  .request-actions, .request-actions .btn, .admin-requests-header .btn, .vehicle-card-footer .btn, .selected-vehicle-preview .status-badge { width: 100%; }
+  .vehicle-card-footer strong { width: 100%; font-size: 1.05rem; }
+  .status-badge { justify-content: center; }
+  .vehicle-image, .vehicle-detail-image { aspect-ratio: 4 / 3; }
+  .detail-grid div { padding: 0.85rem; }
+  .benefits-section { padding-bottom: 2.5rem; }
+  .vehicle-detail-copy { gap: 1rem; margin-top: 1rem; }
+  .centered-page { place-items: stretch; }
+  .not-found-card { max-width: 100%; }
+}
+
+@media (max-width: 380px) {
+  :root { --container: calc(100% - 0.75rem); }
+  .brand-mark span { max-width: 190px; }
+  .menu-toggle { width: 44px; height: 44px; }
+  .benefits-grid, .vehicle-grid, .admin-grid, .filters-panel, .form-grid, .detail-grid, .request-detail-grid, .rental-requests-list { gap: 0.85rem; }
+  .benefits-grid article, .filters-panel, .vehicle-card, .not-found-card, .form-card, .vehicle-detail-card, .admin-requests-section, .rental-request-card { padding: 0.85rem; }
+}

@@ -62,6 +62,9 @@ failsafe-reports/
 .cursor/
 agent-tools/
 
+# Documentación local
+*.md
+
 # Misceláneo
 *.local
 .cache/
